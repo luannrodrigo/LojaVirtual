@@ -25,3 +25,6 @@ router.get('/recuperar-senha',usuarioController.showRecovery);
 router.post('/recuperar-senha', usuarioController.createRecovery);
 router.get('senha-recuperada',usuarioController.show.CompleteRecovery);
 router.post('senha-recuperada', usuarioController.CompleteRecovery);
+
+//export router
+module.exports = router;
