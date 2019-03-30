@@ -1,0 +1,89 @@
+1º Fazer os casos de usos
+Administrador
+-ter acessos a todos os pedidos feitos na loja
+-conseguir alterar o status e avisar os clientes dessa alteração
+-add o cod de rastreios do pedido do cliente
+-alterar e excluir o pedido do cliente e avisar da alteração
+-pesquisa por nome ou telefone na listagem do cliente.
+-alterar ou remover um cliente.
+-ter acesso aos pedidos de um cliente específico
+-ter acesso a uma lista de todos os produtos disponíveis da loja
+-manipular informações dos produtos
+-adicionar fotos de um produto
+-ter acesso a uma lista com todas as categorias que estão disponíveis e indisponíveis
+-conseguir alterar os dados de uma categorias, deixar indisponíveis e excluir uma categorias
+-ter acesso a uma lista com as variações de um determinado produtos
+-Deixar indisponível determinada variação
+-Enviar fotos exclusivas para uma variação
+-alterar os dados da variação - colocar desconto, alterar preço base.
+
+-ter acesso a uma lista com todas avaliações de uma determinado produtos
+-responder às avaliações ou excluir
+
+-alterar os dados de clientes
+-conseguir fazer login com administrador no site
+-recuperar a senha do seu cadastro pelo email
+-Alterar os dados relacionados a loja
+  -Colocar a loja em manutenção, alterar dados de telefone , alterar e-mail, endereço
+
+Cliente
+Conseguir deixar avaliações  em produtos
+-Alterar ou excluir avaliações deixadas em produtos
+-fechar pedidos com meio de pagamento
+-realizar o pagamento diretamente pela loja
+  -utilizando cartão de crédito e boleto
+
+-ver todos os pedidos que fez no seu nome
+-ver os detalhes de um pedido feito -pagamento, entrega, dados da loja
+
+-conseguir cancelar o seu pedido
+-alterar seus dados pessoais e de entrega online
+
+-alterar os dados
+
+
+Visitante
+-ver todas as categorias disponíveis na aplicação
+-ver todos os produtos de uma determinada categoria
+-ver todos os detalhes de um determinado produto
+-ver avaliações deixadas para o produto selecionado
+-ver valores e desconto para cada produto na listagem
+-pesquisar um produto pelo nome, descrição ou categoria
+-Ver uma lista com vários produtos sortidos
+-Alterar a ordem dos produtos - ordem alfabética, ordem de preço, ordem aleatória
+
+
+
+-conseguir calcular o valor de entrega de determinado produto e do carrinho completo
+-conseguir se cadastrar no sistema - login
+-ver paginas institucionais da loja
+
+2º Relacionamento do banco de dados
+
+3º  Instalando pacotes globais no projeto
+  npm install --global create-reacta-app mocha
+    create para criar a base do projeto e o mocha é para os testes da aplicação automatizados
+
+4º Instalando dependencias
+ejs express body-parser compression cors crypto ejs express-jwt faker jsonwebtoken moment mongoose mongoose-paginate mongoose-unique-validator morgan multer node-pagseguro nodemailer request xml2js
+
+5º Estruturando o projeto inicial da api
+    criar arquivo .jshintrc com a versão 6 do js
+    criar arquivo gitignore
+    criar pasta config com as configurações do sistema
+    criar pasta controllers onde ficam as funções do sistema separada em varios arquivos
+        -criar integrações controllers relacionado a integrações
+        -criar controlle validações do sistemas
+    criar helpers que são codigos que auxiliam no dev do sistema
+    criar pasta models
+    public onde ficam css, imagens
+    criar pasta de routes
+        -api -> rotas da api
+    test -> para testes automatizados
+    views
+
+6º estruturar a rota
+    importar express.Router
+    importar os arquivos de autentição e o controller do usuario
+    declarar uma nova classe usuariocontrollr()
+    setar os verbos das rotas
