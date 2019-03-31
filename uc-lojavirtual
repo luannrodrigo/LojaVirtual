@@ -85,5 +85,5 @@ ejs express body-parser compression cors crypto ejs express-jwt faker jsonwebtok
 6º estruturar a rota
     importar express.Router
     importar os arquivos de autentição e o controller do usuario
-    declarar uma nova classe usuariocontrollr()
-    setar os verbos das rotas
+    declarar uma nova classe usuariocontroller()
+    setar os verbos das rotas delete - show - index - put
