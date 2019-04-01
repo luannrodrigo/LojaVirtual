@@ -3,6 +3,6 @@ module.exports = {
     port: 465,
     auth: {
         user: "luann.rodrigos@gmail.com",
-        pass: "1803360Br@"
+        pass: "@cesso123**"
     }
 };
