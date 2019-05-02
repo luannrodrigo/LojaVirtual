@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const secret = require('../config').secret;
 
-const = UsuarioSchema = new mongoose.Schema({
+const UsuarioSchema = new mongoose.Schema({
     nome: {
         type: String,
         required: [true, "não pode ser vazio."]
@@ -16,10 +16,10 @@ const = UsuarioSchema = new mongoose.Schema({
         unique: true,
         required: [true, "não pod ser vazio."],
         index: true,
-        match: [/\S+@\S+\.S+/, "email invalido"]//verifica se o email e valido
+        match: [/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/, "email invalido"]//verifica se o email e valido
     },
     loja: {
-        type: Schema.Type.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Loja",
         required: [true, "não pode ser vazio."]
     },
@@ -27,7 +27,7 @@ const = UsuarioSchema = new mongoose.Schema({
     permissao: {
         type: Array,
         default: ["cliente"]
-    }
+    },
     // Com hash e salt não é preciso guardar a senha do server
     hash: String,
     salt: String,
@@ -40,11 +40,11 @@ const = UsuarioSchema = new mongoose.Schema({
     }
 }, {timeStamps: true}) //Manter dois dados por padrão no mongoose: data em que foi criando e se foi alterado.
 
-// atiavando o plugin do uniqueValidator para os campos
+// ativando o plugin do uniqueValidator para os campos
 UsuarioSchema.plugin(uniqueValidator, {message: "email existe em nossa base de dados"});
 
 // Para criar uma nova senha
-UsuarioSchema.methods.setSenha = function(password) {
+UsuarioSchema.methods.setSenha  = function(password) {
     this.salt = crypto.randomBytes(16).toString("hex");
     this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, "sha512").toString('hex')
 }
@@ -56,8 +56,8 @@ UsuarioSchema.methods.validarSenha = function(password) {
 };
 UsuarioSchema.methods.gerarToken = function(){
     const hoje = new Date();
-    const exp = new Date(today);
-    exp.setDate(today.getDate() + 15);
+    const exp = new Date(hoje);
+    exp.setDate(hoje.getDate() + 15);
 
     return jwt.sign({
         id: this._id,
@@ -75,7 +75,7 @@ UsuarioSchema.methods.enviarAuthJson = function() {
         role: this.permissao,
         token: this.gerarToken()
     };
-}
+};
 
 // recuperação de senha
 UsuarioSchema.methods.criarTokenRecuperacaoSenha = function() {

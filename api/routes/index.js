@@ -1,8 +1,8 @@
 const router = require("express").Router();
 
 //definindo as todas em versões
-router.use('/api/v1', require('./api/v1'));
-router.get('/', (req, res, next) => res.send({ok: true}))
+router.use('/v1/api', require('./api/v1'));
+router.get('/', (req, res, next) => res.send({ok: true}));
 
 //criando um rota de validação para quando retornar algum erro
 router.use(function(err, req, res, next) {
@@ -14,6 +14,7 @@ router.use(function(err, req, res, next) {
             }, {})
         });
     }
-})
+    return next(err);
+});
 
 module.exports = router;

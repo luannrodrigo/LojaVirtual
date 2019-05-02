@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cors = require('cors');
 
-//start
+//start../../public/images
 const app = express();
 
 //ambiente
@@ -25,6 +25,7 @@ mongoose.connect(dbURI, {useNewUrlParser: true});
 
 //setup ejs
 app.set("view engine", "ejs");
+/*app.set("views", "./views");*/
 
 //configurações
 if(!isProduction) app.use(morgan("dev"));
@@ -43,7 +44,7 @@ app.use("/", require("./routes"));
 
 //404 - rota
 app.use((req, res, next) => {
-    const err = new Error("not found");
+    const err = new Error("not found"); 
     err.status = 404;
     next(err);
 });
@@ -58,5 +59,5 @@ app.use((err, req, res, next) =>{
 //listen
 app.listen(PORT, (err) => {
     if(err) throw err;
-    console.log(`Server running in port ${PORT}`)
-})
+    console.log(`Server running in port ${PORT}`);
+});

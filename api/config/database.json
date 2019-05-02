@@ -1,4 +1,4 @@
 {
-    "dbTest": "mongdb://localhost:27017/api-test",
-    "dbProduction": "mongdb://localhost:27017/api"
+    "dbTest": "mongodb://localhost:27017/api-test",
+    "dbProduction": "mongodb://localhost:27017/api"
 }
