@@ -90,10 +90,13 @@ class UsuarioController {
         const {email} = req.body;
         if (!email) return res.render('recovery', {error: 'Preencha com o seu email', success: null});
         Usuario.findOne({email}).then((usuario) => {
-            if (!usuario) return res.render('recovery', {error: 'Não existe usuario com este email', success: null})
+            if (!usuario) return res.render('recovery', {error: 'Usuario não existe', success: null});
+
             const recoveryData = usuario.criarTokenRecuperacaoSenha();
+
             return usuario.save().then(() => {
-                enviarEmailRecovery({usuario, recovery: recoveryData}, (error = null, success = null) => {
+
+                enviarEmailRecovery({usuario, recovery: recoveryData},(error = null, success = null) => {
                     return res.render("recovery", {error, success});
                 });
             }).catch(next);
@@ -104,8 +107,9 @@ class UsuarioController {
     * verificar se pertence a algum  usuario
     * verificar se ele ainda e valido
      */
-    showCompleteRecovery(res, req, next){
+    showCompleteRecovery(req, res, next){
         //caso não tenha o token retornar a pagina inicial com o erro
+
         if (!req.query.token) return res.render("recovery", {error: 'Token não identificado', success: null});
         //caso tenha o token a função encontra o usuario
         Usuario.findOne({'recovery.token': req.query.token}).then(usuario => {
@@ -132,7 +136,7 @@ class UsuarioController {
             * foi encontrado no sistema
             * finalizar a opção de token de recuperação  e setar a nova senha
             * */
-            usuario.finalizarTokenRecuperacaoSenha();
+            usuario.finzalizarTokenrecuperacaoSenha();
             usuario.setSenha(password);
             return usuario.save().then(() => {
                 return res.render('recovery/store',{
