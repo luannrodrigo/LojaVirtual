@@ -14,11 +14,12 @@ const LojaSchema = mongoose.Schema({
             numero: {type: String, required: true},
             compelemento: {type: String},
             bairro: {type: String, required: true},
-            cidade: {type: String, required: true}
+            cidade: {type: String, required: true},
+            CEP:{type: String, required: true}
         },
         required: true
     }
-}, {timestamp: true});
+}, {timestamps: true});
 LojaSchema.plugin(uniqueValidator, {message: "já esta sendo usado"})
 
 module.exports = mongoose.model("Loja", LojaSchema)

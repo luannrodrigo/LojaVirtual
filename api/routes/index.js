@@ -4,7 +4,7 @@ const router = require("express").Router();
 router.use('/v1/api', require('./api/v1'));
 router.get('/', (req, res, next) => res.send({ok: true}));
 
-//criando um rota de validação para quando retornar algum erro
+/*//criando um rota de validação para quando retornar algum erro
 router.use(function(err, req, res, next) {
     if (err.name === 'ValidationError') {
         return res.status(422).json({
@@ -15,6 +15,6 @@ router.use(function(err, req, res, next) {
         });
     }
     return next(err);
-});
+});*/
 
 module.exports = router;

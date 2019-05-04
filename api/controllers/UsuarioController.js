@@ -37,10 +37,7 @@ class UsuarioController {
 
         usuario.save()
             .then(()=> res.json({usuario: usuario.enviarAuthJson()}))
-            .catch((err)=>{
-                console.log(err);
-                next(err);
-            });
+            .catch(next)
     }
     //put -> update
     update(req, res, next){
@@ -71,8 +68,8 @@ class UsuarioController {
     login(req, res, next){
         const {email, password} = req.body;
         //validando se o campor email e senha são vazios
-        if(!email) return res.status(422).json({errors: {email: "email não pode ficar vazio"}});
-        if(!password) return res.status(422).json({errors: {email: "senha não pode ficar vazio"}});
+/*        if(!email) return res.status(422).json({errors: {email: "email não pode ficar vazio"}});
+        if(!password) return res.status(422).json({errors: {email: "senha não pode ficar vazio"}});*/
         //validando usuario e senha
         Usuario.findOne({email}).then((usuario) => {
             if (!usuario) return res.status(401).json({errors: "Usuario não registrado"});

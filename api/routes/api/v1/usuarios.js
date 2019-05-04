@@ -2,14 +2,18 @@ const router = require('express').Router();
 const auth = require('../../auth');
 const UsuarioController = require('../../../controllers/UsuarioController');
 
+
+/*validação*/
+const Validation = require("express-validation");
+const {UsuarioValidation} = require("../../../controllers/validacoes/usuarioValidation");
+
+
 //instanciando uma classe UsuarioController
 const usuarioController = new UsuarioController();
 
 //definindo as rotas
-
-
 //enviando dados de login
-router.post('/login', usuarioController.login);
+router.post('/login', Validation(UsuarioValidation.login), usuarioController.login);
 //registrando na plataforma
 router.post('/registrar', usuarioController.store); // ok
 //atualizando dados
