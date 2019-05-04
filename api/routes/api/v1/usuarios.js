@@ -15,9 +15,9 @@ const usuarioController = new UsuarioController();
 //enviando dados de login
 router.post('/login', Validation(UsuarioValidation.login), usuarioController.login);
 //registrando na plataforma
-router.post('/registrar', usuarioController.store); // ok
+router.post('/registrar', Validation(UsuarioValidation.store), usuarioController.store); // ok
 //atualizando dados
-router.put('/', auth.required, usuarioController.update);// ok
+router.put('/', auth.required, Validation(UsuarioValidation.update), usuarioController.update);// ok
 /*deletando*/
 router.delete('/', auth.required, usuarioController.remove);//ok
 
@@ -30,7 +30,7 @@ router.post('/senha-recuperada', usuarioController.completeRecovery);
 //para listar todos os usuairos(administrador)
 router.get('/', auth.required, usuarioController.index); // ok
 //passando id como paramentro
-router.get('/:id', auth.required, usuarioController.show); //ok
+router.get('/:id', auth.required, Validation(UsuarioValidation.show), usuarioController.show); //ok
 
 //export router
 module.exports = router;
