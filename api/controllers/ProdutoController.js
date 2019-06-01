@@ -7,4 +7,4 @@ class ProdutoCotroller {
 
 }
 
-module.exports = ProdutoController
+module.exports = ProdutoController  
