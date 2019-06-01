@@ -91,7 +91,7 @@ const ClienteValidation = {
                 estado: Joi.string().required(),
                 CEP: Joi.string().required()
             }).optional(),
-            dataNascimento: Joi.date().format('YYYY-MM-DD').raw().required()
+            dataNascimento: Joi.date().format('YYYY-MM-DD').raw().optional()
         }
     }
 };
