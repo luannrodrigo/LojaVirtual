@@ -5,7 +5,8 @@
   "scripts": {
     "test": "mocha --timeout 2000 --exit",
     "dev": "NODE_ENV=development nodemon server.js",
-    "build": "NODE_ENV=production pm2 start server.js --name=\"api\""
+    "build": "NODE_ENV=production pm2 start server.js --name=\"api\"",
+    "start": "nodemon server.js"
   },
   "author": "luann",
   "license": "MIT",

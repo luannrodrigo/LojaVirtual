@@ -3,18 +3,18 @@ const Extension = require('joi-date-extensions');
 const Joi = BaseJoi.extend(Extension);
 
 const ClienteValidation = {
-    index:{
-        query:{
+    index: {
+        query: {
             offset: Joi.number(),
             limit: Joi.number()
         }
     },
-    search:{
-        query:{
+    search: {
+        query: {
             offset: Joi.number(),
             limit: Joi.number()
         },
-        params:{
+        params: {
             search: Joi.string().required()
         }
     },
@@ -77,7 +77,7 @@ const ClienteValidation = {
         params: {
             id: Joi.string().alphanum().length(24).required()
         },
-        body:{
+        body: {
             nome: Joi.string().optional(),
             cpf: Joi.string().length(14).optional(),
             email: Joi.string().email().optional(),
@@ -96,4 +96,4 @@ const ClienteValidation = {
     }
 };
 
-module.exports = {ClienteValidation};
+module.exports = { ClienteValidation };
