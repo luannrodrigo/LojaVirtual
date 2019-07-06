@@ -12,7 +12,7 @@ const LojaSchema = mongoose.Schema({
         type:{
             local:{type: String, required: true},
             numero: {type: String, required: true},
-            compelemento: {type: String},
+            complemento: {type: String},
             bairro: {type: String, required: true},
             cidade: {type: String, required: true},
             CEP:{type: String, required: true}

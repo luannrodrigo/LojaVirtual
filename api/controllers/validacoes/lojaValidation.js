@@ -34,7 +34,7 @@ const LojaValidation = {
             endereco: Joi.object({
                 local: Joi.string().required(),
                 numero: Joi.string().required(),
-                compelemento: Joi.string().required(),
+                complemento: Joi.string().required(),
                 bairro: Joi.string().required(),
                 cidade: Joi.string().required(),
                 CEP: Joi.string().required()
@@ -50,7 +50,7 @@ const LojaValidation = {
             endereco: Joi.object({
                 local: Joi.string().required(),
                 numero: Joi.string().required(),
-                compelemento: Joi.string().required(),
+                complemento: Joi.string().required(),
                 bairro: Joi.string().required(),
                 cidade: Joi.string().required(),
                 CEP: Joi.string().required()

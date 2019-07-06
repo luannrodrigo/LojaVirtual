@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const Produto = mongoose.model('Produto')
 const Categoria = mongoose.model('Categoria')
 
+const Avalicao = mongoose.model('Avaliacao')
+
 const getSort = (sortType) => {
     switch (sortType) {
         case 'alfabetica_a-z':
@@ -272,6 +274,19 @@ class ProdutoController {
                 .populate(['avaliacoes', 'variacoes', 'loja'])
             return res.send({
                 produto
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async showAvalicacoes(req, res, next){
+        try {
+            const avaliacoes = await Avalicao.find({
+              produto: req.params.id
+            });
+            return res.send({
+                avaliacoes
             })
         } catch (e) {
             next(e)

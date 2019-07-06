@@ -35,7 +35,7 @@ const ClienteValidation = {
             endereco: Joi.object({
                 local: Joi.string().required(),
                 numero: Joi.string().required(),
-                compelemento: Joi.string(),
+                complemento: Joi.string(),
                 bairro: Joi.string().required(),
                 cidade: Joi.string().required(),
                 estado: Joi.string().required(),
@@ -61,7 +61,7 @@ const ClienteValidation = {
             endereco: Joi.object({
                 local: Joi.string().required(),
                 numero: Joi.string().required(),
-                compelemento: Joi.string(),
+                complemento: Joi.string(),
                 bairro: Joi.string().required(),
                 cidade: Joi.string().required(),
                 estado: Joi.string().required(),
@@ -85,7 +85,7 @@ const ClienteValidation = {
             endereco: Joi.object({
                 local: Joi.string().required(),
                 numero: Joi.string().required(),
-                compelemento: Joi.string(),
+                complemento: Joi.string(),
                 bairro: Joi.string().required(),
                 cidade: Joi.string().required(),
                 estado: Joi.string().required(),

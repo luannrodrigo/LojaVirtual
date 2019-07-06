@@ -129,7 +129,7 @@ class CategoriaController {
         }
     }
     
-    async updateProdutos
+    
 }
 
 

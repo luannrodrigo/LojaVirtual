@@ -2,9 +2,13 @@ const router = require('express').Router()
 
 const Produtocontroller = require('../../../controllers/ProdutoController')
 
-const { LojaValidation } = require('../../../controllers/validacoes/lojaValidation')
+const {
+    LojaValidation
+} = require('../../../controllers/validacoes/lojaValidation')
 const Validation = require('express-validation')
-const { ProdutoValidation } = require('../../../controllers/validacoes/produtoValidation')
+const {
+    ProdutoValidation
+} = require('../../../controllers/validacoes/produtoValidation')
 const auth = require('../../auth')
 const upload = require('../../../config/multer')
 
@@ -23,8 +27,9 @@ router.get('/disponiveis', Validation(ProdutoValidation.indexDisponiveis), produ
 router.get('/search/:search', Validation(ProdutoValidation.search), produtoController.search)
 router.get('/:id', Validation(ProdutoValidation.show), produtoController.show)
 
-//variações 
+//avaliações
+router.get("/:id/avaliacoes", Validation(ProdutoValidation.showAvaliacoes), produtoController.showAvaliacoes);
 
-//avaliações 
+//variaçoes
 
 module.exports = router
