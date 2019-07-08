@@ -1,5 +1,5 @@
 const router = require('express').Router()
-console.log('aa')
+
 const Validation = require('express-validation')
 
 const AvaliacaoController = require('../../../controllers/AvaliacaoController')

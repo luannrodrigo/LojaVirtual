@@ -128,6 +128,31 @@ class CategoriaController {
             next(e)
         }
     }
+
+    async updateProdutos(req, res, next){
+        try {
+            const categoria = await Categoria.findById(req.params.id)
+            const { produtos } = req.body
+
+            if (produtos) categoria.produtos = produtos
+            await categoria.save()
+
+            const _produtos = await Produto.paginate(
+                {
+                    categoria: req.params.id
+                }, 
+                {
+                    offset: 0, 
+                    limit: 30
+                }
+            )
+            return res.send({
+                produtos: _produtos
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
     
     
 }

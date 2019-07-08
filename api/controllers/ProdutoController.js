@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Produto = mongoose.model('Produto')
 const Categoria = mongoose.model('Categoria')
 
-const Avalicao = mongoose.model('Avaliacao')
+const Avaliacao = mongoose.model('Avaliacao')
 
 const getSort = (sortType) => {
     switch (sortType) {
@@ -279,10 +279,11 @@ class ProdutoController {
             next(e)
         }
     }
+    //get  /:id/avaliacoes/  - show avaliacoes
 
-    async showAvalicacoes(req, res, next){
+    async showAvaliacoes(req, res, next) {
         try {
-            const avaliacoes = await Avalicao.find({
+            const avaliacoes = await Avaliacao.find({
               produto: req.params.id
             });
             return res.send({
