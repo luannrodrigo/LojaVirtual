@@ -44,7 +44,7 @@ class ProdutoController {
         const {
             loja
         } = req.query
-
+        
         try {
             const produto = new Produto({
                 titulo,
@@ -57,10 +57,11 @@ class ProdutoController {
                 loja
             })
             const categoria = await Categoria.findById(categoriaId)
-            categoria.produto.push(produto._id)
+            categoria.produtos.push(produto._id)
 
             await produto.save()
             await categoria.save()
+
 
             return res.send({
                 produto
@@ -293,7 +294,6 @@ class ProdutoController {
             next(e)
         }
     }
-
 
 }
 

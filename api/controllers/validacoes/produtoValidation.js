@@ -10,7 +10,8 @@ const ProdutoValidation = {
             categoria: Joi.string().alphanum().length(24).required(),
             preco: Joi.number().required(),
             promocao: Joi.string(),
-            sku: Joi.string().required()
+            sku: Joi.string().required(),
+            loja: Joi.string().alphanum().length(24).required()
         }
     },
     update: {

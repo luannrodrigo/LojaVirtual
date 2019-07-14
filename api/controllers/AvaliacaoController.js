@@ -37,7 +37,7 @@ class AvaliacaoController {
         } = req.params
 
         try {
-            const avaliacoes = await Avaliacao.findOne({
+            const avaliacao = await Avaliacao.findOne({
                 _id,
                 loja,
                 produto
@@ -62,8 +62,9 @@ class AvaliacaoController {
             loja,
             produto
         } = req.query
+
         try {
-            const avaliacoes = new({
+            const avaliacao = new Avaliacao({
                 nome,
                 texto,
                 pontuacao,
@@ -71,9 +72,10 @@ class AvaliacaoController {
                 produto
             })
 
-            const _produto = Produto.findById(produto)
+            const _produto = await Produto.findById(produto)
+            if(!_produto) return res.status(422).send({error: 'Produto não existe'})
             //add o id do produto nas avaliações
-            _produto.avaliacoes.push(avaliacoes._id)
+            _produto.avaliacoes.push(avaliacao._id)
 
             await _produto.save()
             await avaliacao.save()
@@ -93,7 +95,7 @@ class AvaliacaoController {
 
             const produto = await Produto.findById(avaliacao.produto)
             //fintrando o array de avaliações dentro de produtos e mantendo apenas que não de mesmo valor que o id do avaliacoes
-            produto.avaliacoes = produto.avaliacao.filter(item => item.toString() !== avaliacao._id.toString())
+            produto.avaliacoes = produto.avaliacoes.filter(item => item.toString() !== avaliacao._id.toString())
 
             await produto.save()
 
