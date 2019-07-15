@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 
 const Produto = mongoose.model('Produto')
-const Categoria = mongoose.model('Categoria')
 
+const Categoria = mongoose.model('Categoria')
 const Avaliacao = mongoose.model('Avaliacao')
+const Variacao = mongoose.model('Variacao')
 
 const getSort = (sortType) => {
     switch (sortType) {
@@ -11,20 +12,20 @@ const getSort = (sortType) => {
             return {
                 titulo: 1
             }
-        case 'alfabetica_z-a':
-            return {
-                titulo: -1
-            }
-        case 'preco_crescente':
-            return {
-                titulo: 1
-            }
-        case 'preco_decrescente':
-            return {
-                titulo: -1
-            }
-        default:
-            return {}
+            case 'alfabetica_z-a':
+                return {
+                    titulo: -1
+                }
+                case 'preco_crescente':
+                    return {
+                        titulo: 1
+                    }
+                    case 'preco_decrescente':
+                        return {
+                            titulo: -1
+                        }
+                        default:
+                            return {}
 
     }
 }
@@ -44,7 +45,7 @@ class ProdutoController {
         const {
             loja
         } = req.query
-        
+
         try {
             const produto = new Produto({
                 titulo,
@@ -196,10 +197,10 @@ class ProdutoController {
             const produtos = await Produto.paginate({
                 loja: req.query.loja
             }, {
-                    offset,
-                    limit,
-                    sort: getSort(req.query.sortType)
-                })
+                offset,
+                limit,
+                sort: getSort(req.query.sortType)
+            })
             return res.send({
                 produtos
             })
@@ -216,10 +217,10 @@ class ProdutoController {
                 loja: req.query.loja,
                 disponibilidade: true
             }, {
-                    offset,
-                    limit,
-                    sort: getSort(req.query.sortType)
-                })
+                offset,
+                limit,
+                sort: getSort(req.query.sortType)
+            })
             return res.send({
                 produtos
             })
@@ -237,26 +238,26 @@ class ProdutoController {
             const produtos = await Produto.paginate({
                 loja: req.query.loja,
                 $or: [{
-                    'titulo': {
-                        $regex: search
-                    }
-                },
-                {
-                    'descricao': {
-                        $regex: search
-                    }
-                },
-                {
-                    'sku': {
-                        $regex: search
-                    }
-                },
+                        'titulo': {
+                            $regex: search
+                        }
+                    },
+                    {
+                        'descricao': {
+                            $regex: search
+                        }
+                    },
+                    {
+                        'sku': {
+                            $regex: search
+                        }
+                    },
                 ]
             }, {
-                    offset,
-                    limit,
-                    sort: getSort(req.query.sortType)
-                })
+                offset,
+                limit,
+                sort: getSort(req.query.sortType)
+            })
 
             return res.send({
                 produtos
@@ -285,10 +286,23 @@ class ProdutoController {
     async showAvaliacoes(req, res, next) {
         try {
             const avaliacoes = await Avaliacao.find({
-              produto: req.params.id
+                produto: req.params.id
             });
             return res.send({
                 avaliacoes
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async showVariacoes(req, res, next) {
+        try {
+            const variacoes = await Variacao.find({
+                produto: req.params.id
+            });
+            return res.send({
+                variacoes
             })
         } catch (e) {
             next(e)
