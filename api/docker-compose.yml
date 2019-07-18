@@ -1,25 +1,85 @@
 version: "3"
 
 services: 
-  app: 
-    build: .
+  nginx:
+    build:
+      dockerfile: ./docker/nginx.dockerfile
+      context: .
+    image: luann/nginx
+    container_name: nginx
+    ports: 
+      - 80:80 
+    networks: 
+      - school
+    depends_on: 
+      - app
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+      - MONGO_URL=mongodb
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    networks: 
+      - school
+
+  app1: 
+    build: 
+      dockerfile: ./docker/node.dockerfile
+      context: .
+    container_name: api_node_1
     command: yarn run dev
     ports: 
       - 3000:3000
+    networks: 
+      - school
     volumes:
       - .:/usr/app
     links:
       - mongodb
+    depends_on: 
+      - mongodb
+
+  app2: 
+    build: 
+      dockerfile: ./docker/node.dockerfile
+      context: .
+    container_name: api_node_2
+    command: yarn run dev
+    ports: 
+      - 3000:3000
+    networks: 
+      - school
+    volumes:
+      - .:/usr/app
+    links:
+      - mongodb
+    depends_on: 
+      - mongodb
+
+  app3: 
+    build: 
+      dockerfile: ./docker/node.dockerfile
+      context: .
+    container_name: api_node_3
+    command: yarn run dev
+    ports: 
+      - 3000:3000
+    networks: 
+      - school
+    volumes:
+      - .:/usr/app
+    links:
+      - mongodb
+    depends_on: 
+      - mongodb
       
-  mongodb:
-      image: mongo:latest
-      container_name: "mongodb"
-      environment:
-        - MONGO_DATA_DIR=/data/db
-        - MONGO_LOG_DIR=/dev/null
-        - MONGO_URL=mongodb
-      volumes:
-        - ./data/db:/data/db
-      ports:
-        - 27017:27017
-      command: mongod --smallfiles --logpath=/dev/null # --quiet
+networks: 
+  school:
+    driver: bridge
