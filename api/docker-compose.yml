@@ -29,11 +29,11 @@ services:
     networks: 
       - school
 
-  app1: 
+  app: 
     build: 
       dockerfile: ./docker/node.dockerfile
       context: .
-    container_name: api_node_1
+    container_name: api_node
     command: yarn run dev
     ports: 
       - 3000:3000
@@ -46,39 +46,6 @@ services:
     depends_on: 
       - mongodb
 
-  app2: 
-    build: 
-      dockerfile: ./docker/node.dockerfile
-      context: .
-    container_name: api_node_2
-    command: yarn run dev
-    ports: 
-      - 3000:3000
-    networks: 
-      - school
-    volumes:
-      - .:/usr/app
-    links:
-      - mongodb
-    depends_on: 
-      - mongodb
-
-  app3: 
-    build: 
-      dockerfile: ./docker/node.dockerfile
-      context: .
-    container_name: api_node_3
-    command: yarn run dev
-    ports: 
-      - 3000:3000
-    networks: 
-      - school
-    volumes:
-      - .:/usr/app
-    links:
-      - mongodb
-    depends_on: 
-      - mongodb
       
 networks: 
   school:

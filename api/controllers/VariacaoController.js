@@ -66,7 +66,7 @@ class VariacaoController {
         const {
             loja,
             produto
-        } = req.params
+        } = req.query
 
         try {
             const variacao = new Variacao({
@@ -83,7 +83,7 @@ class VariacaoController {
             if (!_produto) return res.status(400).send({
                 error: 'Produto não encontrado'
             })
-            _produto.varicoes.push(variacao._id)
+            _produto.variacoes.push(variacao._id)
 
             await _produto.save()
             await variacao.save()
@@ -92,6 +92,7 @@ class VariacaoController {
                 variacao
             })
         } catch (e) {
+            console.log(e)
             next(e)
         }
     }
@@ -110,18 +111,12 @@ class VariacaoController {
 
         const {
             loja,
-            produto
+            produto,
         } = req.params
 
-        const {
-            id: _id
-        } = req.params
 
         try {
-            const variacao = await Variacao.findOne({ 
-                loja,
-                produto,
-                _id })
+            const variacao = await Variacao.findById(req.params.id)
             if(!variacao) return res.status(400).send({error: 'Variação não encontrada'})
 
             if (codigo) variacao.codigo = codigo
@@ -143,11 +138,14 @@ class VariacaoController {
     }
     //Put /images/:id - updateimages
 
-    async updateImages(req, res, next){
+    async updateImages(req, res, next) {
         const {
             loja, 
             produto
         } = req.query
+        const {
+            id: _id
+        } = req.params
 
         try {
             const variacao = await Variacao.findOne({
@@ -158,6 +156,7 @@ class VariacaoController {
             if (!variacao) return res.status(400).send({ error: 'Variação não encontrada'})
 
             const novasImagens = req.files.map(item => item.filename)
+            console.log(novasImagens)
             variacao.fotos = variacao.fotos.filter(item => item).concat(novasImagens)
 
             await variacao.save()
@@ -165,6 +164,7 @@ class VariacaoController {
             return res.send({variacao})
             
         } catch (e) {
+            console.log(e)
             next (e)
         }
     }
@@ -176,6 +176,9 @@ class VariacaoController {
             loja, 
             produto
         } = req.query
+        const {
+                id: _id
+        } = req.params
 
         try {
             const variacao = await Variacao.findOne({
@@ -189,7 +192,7 @@ class VariacaoController {
             const _produto = await Produto.findById(variacao.produto)
             _produto.variacoes = _produto.variacoes.filter(item => item.toString() !== variacao._id.toString())
 
-            await produto.save()
+            await _produto.save()
 
             await variacao.remove()
 
