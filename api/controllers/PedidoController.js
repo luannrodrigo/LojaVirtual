@@ -15,10 +15,10 @@ class PedidoController {
     async indexAdmin(req, res, next) {
         const {
             offset,
-            limite,
+            limit,
             loja
         } = req.query;
-
+        
         try {
             const pedidos = await Pedido.paginate({
                 loja
@@ -31,17 +31,20 @@ class PedidoController {
              *Polulate 
              * promise.all para percorrer todos os pedido e colcoar todos os produtos e variação individualmente 
              */
-
-            pedidos.docs = await Promise.all(pedido.docs.map(async (pedido) => {
+            
+            pedidos.docs = await Promise.all(pedidos.docs.map(async (pedido) => {
                 pedido.carrinho = await Promise.all(pedido.carrinho.map(async (item) => {
-                    item.produto = await Produto.findById(item.produto)
-                    item.variacao = await Variacao.findById(item.variacao)
+                    item.produto = await Produto.findOne(item.produto)
+                    item.variacao = await Variacao.findOne(item.variacao)
                     return item
                 }))
                 return pedido
             }))
-            return pedido
+            return res.send({
+                pedidos
+            })
         } catch (e) {
+            console.log(e)
             next(e)
         }
     }
@@ -117,9 +120,10 @@ class PedidoController {
 
     // Get '/' - Index
     async index(req, res, next) {
+        console.log('aqqq')
         const {
             offset,
-            limite,
+            limit,
             loja
         } = req.query;
 
@@ -195,7 +199,7 @@ class PedidoController {
 
         try {
             //checar dados do carrinho
-            if (!CarrinhoValidation(carrinho)) return res.status(422).send({
+            if (!await CarrinhoValidation(carrinho)) return res.status(422).send({
                 error: 'carrinho invalido'
             })
             //checar dados do entrega
@@ -223,6 +227,7 @@ class PedidoController {
                 status: 'nao_iniciado',
                 custo: entrega.custo,
                 prazo: entrega.prazo,
+                tipo: entrega.tipo,
                 payload: entrega,
                 loja
             })
@@ -250,6 +255,7 @@ class PedidoController {
                 })
             })
         } catch (e) {
+            console.log(e)
             next(e)
         }
     }

@@ -11,6 +11,7 @@
   "author": "luann",
   "license": "MIT",
   "dependencies": {
+    "apidoc": "^0.17.7",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "cors": "^2.8.5",

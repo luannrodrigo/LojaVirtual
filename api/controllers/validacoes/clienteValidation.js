@@ -18,7 +18,25 @@ const ClienteValidation = {
             search: Joi.string().required()
         }
     },
+    searchPedidos: {
+        query: {
+            offset: Joi.number(),
+            limit: Joi.number()
+        },
+        params: {
+            search: Joi.string().required()
+        }
+    },
     showAdmin: {
+        params: {
+            id: Joi.string().alphanum().length(24).required()
+        }
+    },
+    showPedidosClientes: {
+        query: {
+            offset: Joi.number(),
+            limit: Joi.number()
+        },
         params: {
             id: Joi.string().alphanum().length(24).required()
         }
@@ -96,4 +114,6 @@ const ClienteValidation = {
     }
 };
 
-module.exports = { ClienteValidation };
+module.exports = {
+    ClienteValidation
+};

@@ -14,14 +14,59 @@ const PedidoValidation = {
     },
     removeAdmin: {
         params: {
-            id: Joi.string().alphanum().length().required()
+            id: Joi.string().alphanum().length(24).required()
         }
     },
     showCarrinhoPedidoAdmin: {
         params: {
-            id: Joi.string().alphanum().length(24).required
+                id: Joi.string().alphanum().length(24).required()
+        }
+    }, 
+    index: {
+        query: {
+            loja: Joi.string().alphanum().length(24).required(),
+            offset: Joi.number().required(), 
+            limit: Joi.number().required()
+        }
+    }, 
+    show: {
+        params: {
+            id: Joi.string().alphanum().length(24).required()
+        }
+    }, 
+    remove: {
+        params: {
+            id: Joi.string().alphanum().length(24).required()
+        }
+    }, 
+    showCarrinhoPedido: {
+        params: {
+            id: Joi.string().alphanum().length(24).required()
+        }
+    }, 
+    store: {
+        query: {
+            loja: Joi.string().alphanum().length(24).required()
+        },
+        body: {
+            carrinho: Joi.array().items(Joi.object({
+                produto: Joi.string().alphanum().length(24).required(),
+                variacao: Joi.string().alphanum().length(24).required(),
+                precoUnitario: Joi.number().required(), 
+                quantidade: Joi.number().required()
+            })).required(),
+            pagamento: Joi.object({
+                valor: Joi.number().required(), 
+                forma: Joi.string().required()
+            }).required(), 
+            entrega: Joi.object({
+                custo: Joi.number().required(),
+                tipo: Joi.string().required(),
+                prazo: Joi.number().required()
+            }).required()
         }
     }
+    
 }
 
 module.exports = {

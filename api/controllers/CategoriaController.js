@@ -3,7 +3,56 @@ const mongoose = require('mongoose')
 const Categoria = mongoose.model('Categoria')
 
 class CategoriaController {
+
     //Get /index
+/**
+* @api {get} /categoria/:id Requisição das categorias de uma loja
+* @apiName GetCategoria
+* @apiGroup Categoria
+*
+* @apiParam {String} id loja.
+*
+* @apiSuccessExample Success-Response: 
+*  HTTP / 1.1 200 OK
+*   {
+*       "categorias": [{
+*           "produtos": [
+*               "5d2b4c234e71550096375e7e",
+*               "5d2b4c504e71550096375e7f",
+*               "5d31bcf86f75fb002ef77db1"
+*           ],
+*           "_id": "5d2b489570905f003473fc11",
+*           "nome": "Infomatica",
+*           "codigo": "123",
+*           "loja": "5d228f1ba90ab80027aff76d"
+*       }]
+*   }
+*
+* @apiError BadRequest parametros da url passados incorretamente, falta do id da loja
+*
+* @apiErrorExample Error-Response:
+*     HTTP/1.1 404 Not Found
+*{
+*    "status": 400,
+*    "statusText": "Bad Request",
+*    "errors": [{
+*        "field": [
+*            "loja"
+*        ],
+*        "location": "query",
+*        "messages": [
+*            "\"loja\" is not allowed to be empty",
+*            "\"loja\" must only contain alpha-numeric characters",
+*            "\"loja\" length must be 24 characters long"
+*        ],
+*        "types": [
+*            "any.empty",
+*            "string.alphanum",
+*            "string.length"
+*        ]
+*    }]
+*}
+ */
     index(req, res, next) {
         Categoria.find({
             loja: req.query.loja
@@ -44,6 +93,9 @@ class CategoriaController {
     }
 
     //post / store
+    /**
+     * Modulo responsavel por salvar as categorias
+     */
     store(req, res, next) {
         const {
             nome,
@@ -67,6 +119,9 @@ class CategoriaController {
     }
 
     //put /:id update
+    /**
+     * modulo responsavel por salvar
+     */
     async update(req, res, next) {
         const {
             nome,

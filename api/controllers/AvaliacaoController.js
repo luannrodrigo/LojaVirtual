@@ -5,6 +5,11 @@ const Produto = mongoose.model('Produto')
 
 class AvaliacaoController {
     //GET /
+
+    /**
+     * Modulo responsavel por listar todas as avaliações de  uma loja
+     *  
+     */
     async index(req, res, next) {
         const {
             loja,
@@ -26,6 +31,10 @@ class AvaliacaoController {
     }
 
     //GET /:id
+
+    /*
+    *Modulo responsavel por listar as avaliações de um produto especifico
+    */
     async show(req, res, next) {
         const {
             loja,
@@ -52,6 +61,10 @@ class AvaliacaoController {
     }
 
     //POST / - store
+    /**
+     * Modulo responsavel por salvar  as avaliações 
+     * 
+     */
     async store(req, res, next) {
         const {
             nome,
@@ -89,6 +102,9 @@ class AvaliacaoController {
     }
 
     //DELETE /:id - remove
+    /**
+     * Modulo responsavel por remover uma avaliacao especifica 
+     */
     async remove(req, res, next) {
         try {
             const avaliacao = await Avaliacao.findById(req.params.id)
