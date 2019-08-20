@@ -3,16 +3,16 @@ const mongoose = require('mongoose')
 const Produto = mongoose.model('Produto')
 const Variacao = mongoose.model('Variacao')
 
-const getCarrinhoValue = async  (carrinho) => {
+const getCarrinhoValue = async (carrinho) => {
     let precoTotal = 0
-    let quantidade  = 0
+    let quantidade = 0
 
     carrinho.forEach(item => {
         precoTotal += item.precoUnitario * item.quantidade
         quantidade += item.quantidade
     })
     return {
-        precoTotal, 
+        precoTotal,
         quantidade
     }
 }
@@ -20,29 +20,34 @@ const getCarrinhoValue = async  (carrinho) => {
 const getLojaValue = async (carrinho) => {
     const results = await Promise.all(carrinho.map(async (item) => {
         const produto = await Produto.findById(item.produto)
-        const variacao = await Produto.findById(item.variacao)
+        const variacao = await Variacao.findById(item.variacao)
 
+        console.log(variacao);
+        
         let preco = 0
         let qtd = 0
-
-        if (produto && variacao && produto.variacoes.map(iteincludesm => item.toString().includes(variacao._id.toString()))) {
+        
+        if (produto && variacao && produto.variacoes.map(item => item.toString()).includes(variacao._id.toString())) {
             let _preco = variacao.promocao || variacao.preco
             preco = _preco * item.quantidade
             qtd = item.quantidade
         }
-        return {preco, qtd}
+        return {
+            preco,
+            qtd
+        }
     }))
 
     let precoTotal = results.reduce((all, item) => all + item.preco, 0)
     let quantidade = results.reduce((all, item) => all + item.qtd, 0)
 
     return {
-        precoTotal, 
+        precoTotal,
         quantidade
     }
 }
 
-const CarrinhoValidation =  async  (carrinho) => {
+const CarrinhoValidation = async (carrinho) => {
     const {
         precoTotal: precoTotalCarrinho,
         quantidade: quantidadeTotalCarrinho
@@ -50,7 +55,7 @@ const CarrinhoValidation =  async  (carrinho) => {
     const {
         precoTotal: precoTotalLoja,
         quantidadeTotalLoja
-    } = await  getLojaValue(carrinho)
+    } = await getLojaValue(carrinho)
 
     return precoTotalCarrinho === precoTotalLoja && quantidadeTotalCarrinho === quantidadeTotalLoja
 }

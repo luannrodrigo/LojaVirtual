@@ -120,7 +120,6 @@ class PedidoController {
 
     // Get '/' - Index
     async index(req, res, next) {
-        console.log('aqqq')
         const {
             offset,
             limit,
@@ -128,12 +127,12 @@ class PedidoController {
         } = req.query;
 
         try {
-            const cliente = await Cliente.findById({
+            const cliente = await Cliente.findOne({
                 usuario: req.payload.id
             })
             const pedidos = await Pedido.paginate({
                 loja,
-                cliente: cliente._id
+                _id: req.params.id
             }, {
                 offset: Number(offset || 0),
                 limit: Number(limit || 30),
@@ -144,7 +143,7 @@ class PedidoController {
              * promise.all para percorrer todos os pedido e colcoar todos os produtos e variação individualmente 
              */
 
-            pedidos.docs = await Promise.all(pedido.docs.map(async (pedido) => {
+            pedidos.docs = await Promise.all(pedidos.docs.map(async (pedido) => {
                 pedido.carrinho = await Promise.all(pedido.carrinho.map(async (item) => {
                     item.produto = await Produto.findById(item.produto)
                     item.variacao = await Variacao.findById(item.variacao)
@@ -152,8 +151,11 @@ class PedidoController {
                 }))
                 return pedido
             }))
-            return pedido
+           return res.send({
+               pedidos
+           })
         } catch (e) {
+            console.log(e)
             next(e)
         }
     }
@@ -162,7 +164,7 @@ class PedidoController {
 
     async show(req, res, next) {
         try {
-            const cliente = await Cliente.findById({
+            const cliente = await Cliente.findOne({
                 usuario: req.payload.id
             })
             const pedido = await Pedido
@@ -199,8 +201,8 @@ class PedidoController {
 
         try {
             //checar dados do carrinho
-            if (!await CarrinhoValidation(carrinho)) return res.status(422).send({
-                error: 'carrinho invalido'
+            if (await CarrinhoValidation(carrinho)) return res.status(422).send({
+                error: 'Carrinho invalido'
             })
             //checar dados do entrega
             if (!EntregaValidation(carrinho, entrega)) return res.status(422).send({
@@ -208,7 +210,7 @@ class PedidoController {
             })
             //checar dados do pagamento
             if (!PagamentoValidation(carrinho, pagamento)) return res.status(422).send({
-                error: 'Ddos de entrega invalidos'
+                error: 'Dados de entrega invalidos'
             })
 
             const cliente = await Cliente.findOne({
@@ -249,7 +251,7 @@ class PedidoController {
 
             //Notificar via E-mail - cliente admin = novo pedido
             return res.send({
-                pedido: Object.assig({}, pedido, {
+                pedido: Object.assign({}, pedido._doc, {
                     entrega: novaEntrega,
                     pagamento: novoPagamento
                 })
