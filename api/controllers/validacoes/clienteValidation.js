@@ -72,10 +72,10 @@ const ClienteValidation = {
             loja: Joi.string().alphanum().length(24).required()
         },
         body: {
-            nome: Joi.string().optional(),
-            cpf: Joi.string().length(14).optional(),
-            email: Joi.string().email().optional(),
-            telefones: Joi.array().items(Joi.string()).optional(),
+            nome: Joi.string().required(),
+            cpf: Joi.string().length(14).required(),
+            email: Joi.string().email().required(),
+            telefones: Joi.array().items(Joi.string()).required(),
             endereco: Joi.object({
                 local: Joi.string().required(),
                 numero: Joi.string().required(),
@@ -84,7 +84,7 @@ const ClienteValidation = {
                 cidade: Joi.string().required(),
                 estado: Joi.string().required(),
                 CEP: Joi.string().required()
-            }).optional(),
+            }).required(),
             dataNascimento: Joi.date().format('YYYY-MM-DD').raw().required()
         }
     },

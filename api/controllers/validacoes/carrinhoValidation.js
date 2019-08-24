@@ -26,7 +26,7 @@ const getLojaValue = async (carrinho) => {
         
         let preco = 0
         let qtd = 0
-        
+      
         if (produto && variacao && produto.variacoes.map(item => item.toString()).includes(variacao._id.toString())) {
             let _preco = variacao.promocao || variacao.preco
             preco = _preco * item.quantidade
@@ -37,7 +37,7 @@ const getLojaValue = async (carrinho) => {
             qtd
         }
     }))
-
+    
     let precoTotal = results.reduce((all, item) => all + item.preco, 0)
     let quantidade = results.reduce((all, item) => all + item.qtd, 0)
 

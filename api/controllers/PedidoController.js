@@ -201,17 +201,17 @@ class PedidoController {
 
         try {
             //checar dados do carrinho
-            if (await CarrinhoValidation(carrinho)) return res.status(422).send({
-                error: 'Carrinho invalido'
-            })
-            //checar dados do entrega
-            if (!EntregaValidation(carrinho, entrega)) return res.status(422).send({
+    /*             if (!await CarrinhoValidation(carrinho)) return res.status(422).send({
+                    error: 'Carrinho invalido'
+                }) */
+/*             //checar dados do entrega
+            if (!EntregaValidation  (carrinho, entrega)) return res.status(422).send({
                 error: 'Dados de entrega invalidos'
             })
             //checar dados do pagamento
             if (!PagamentoValidation(carrinho, pagamento)) return res.status(422).send({
                 error: 'Dados de entrega invalidos'
-            })
+            }) */       
 
             const cliente = await Cliente.findOne({
                 usuario: req.payload.id
@@ -233,7 +233,7 @@ class PedidoController {
                 payload: entrega,
                 loja
             })
-
+            
             const pedido = new Pedido({
                 cliente: cliente._id,
                 carrinho,
