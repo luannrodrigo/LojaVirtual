@@ -6,6 +6,7 @@ const Variacao = mongoose.model('Variacao')
 const Pagamento = mongoose.model('Pagamento')
 const Entrega = mongoose.model('Entrega')
 const Cliente = mongoose.model('Cliente')
+const PedidoRegistro = mongoose.model('PedidoRegistro')
 
 const CarrinhoValidation = require('./validacoes/carrinhoValidation')
 
@@ -62,6 +63,9 @@ class PedidoController {
                 item.variacao = await Variacao.findById(item.variacao)
                 return item
             }))
+            
+            pedido.registros = await RegistroPedido.find({pedido: pedido._id})
+
             return res.send({
                 pedido
             })
@@ -82,6 +86,12 @@ class PedidoController {
                 error: 'Pedido não encontrado'
             })
             pedido.cancelado = true
+            const PedidoRegistro = new RegistroPedido({
+                pedido: pedido._id,
+                tipo: 'pedido',
+                situacao: 'pedido_cancelado'
+            })
+            await RegistroPedido.save();
 
             //registro de atividade = pedido cancelado
             //enviar Email para cliente e admin = pedido cancelado
@@ -163,6 +173,7 @@ class PedidoController {
     // Get/:id - show
 
     async show(req, res, next) {
+        console.log('aqui')
         try {
             const cliente = await Cliente.findOne({
                 usuario: req.payload.id
@@ -249,6 +260,12 @@ class PedidoController {
             await novoPagamento.save()
             await novaEntrega.save()
 
+            const PedidoRegistro = new RegistroPedido({
+                pedido: pedido._id,
+                tipo: 'pedido',
+                situacao: 'pedido_criado'
+            })
+            await RegistroPedido.save();
             //Notificar via E-mail - cliente admin = novo pedido
             return res.send({
                 pedido: Object.assign({}, pedido._doc, {
@@ -280,6 +297,13 @@ class PedidoController {
             })
             pedido.cancelado = true
 
+            const PedidoRegistro = new RegistroPedido({
+                pedido: pedido._id,
+                tipo: 'pedido',
+                situacao: 'pedido_cancelado'
+            })
+            await RegistroPedido.save();
+
             //registro de atividade = pedido cancelado
             //enviar Email para cliente e admin = pedido cancelado
 
@@ -297,11 +321,11 @@ class PedidoController {
     // get '/:id/carrinho  - showCarrinhoPedido
     async showCarrinhoPedido(req, res, next) {
         try {
-            const pedido = await Pedido
-                .findOne({
+            const pedido = await Pedido.findOne({
                     cliente: cliente._id,
                     _id: req.params.id
                 })
+            console.log(pedido)
             pedido.carrinho = await Promise.all(pedido.carrinho.map(async (item) => {
                 item.produto = await Produto.findById(item.produto)
                 item.variacao = await Variacao.findById(item.variacao)
@@ -311,6 +335,7 @@ class PedidoController {
                 pedido
             })
         } catch (e) {
+            console.log(e)
             next(e)
         }
     }
